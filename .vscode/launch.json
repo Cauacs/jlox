@@ -1,0 +1,35 @@
+{
+    // Use o IntelliSense para saber mais sobre os atributos possíveis.
+    // Focalizar para exibir as descrições dos atributos existentes.
+    // Para obter mais informações, acesse: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "AstPrinter",
+            "request": "launch",
+            "mainClass": "lox.AstPrinter",
+            "projectName": "Lox_7551221b"
+        },
+        {
+            "type": "java",
+            "name": "Lox",
+            "request": "launch",
+            "mainClass": "lox.Lox",
+            "projectName": "Lox_7551221b"
+        },
+        {
+            "type": "java",
+            "name": "GenerateAst",
+            "request": "launch",
+            "mainClass": "tool.GenerateAst",
+            "projectName": "Lox_7551221b"
+        }
+    ]
+}
