@@ -1,6 +1,6 @@
 
-expressions    → expression ( ","  expression)* ;
-expression     → commaop ;
+expression        → expressions ? expressions : expressions
+expressions    → equality ( ","  equality)* ;
 equality       → comparison ( ( "!=" | "==" ) comparison )* ;
 comparison     → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
 term           → factor ( ( "-" | "+" ) factor )* ;

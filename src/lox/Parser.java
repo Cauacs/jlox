@@ -20,29 +20,40 @@ public class Parser {
 
     Expr parse() {
         try {
-            return expressions();
+            return expression();
         } catch (ParseError error) {
             return null;
         }
     }
 
+    private Expr expression() {
+        Expr expr = expressions();
+        if(match(QUESTION_MARK)){
+            Token questionMark = previous();
+            Expr left = expressions();
+            Token colon = consume(COLON, "Expected : after ?");
+            Expr right = expressions();
+
+            expr = new Expr.Ternary(expr, questionMark, left, colon, right);
+        }
+        return expr;
+    }
+
     private Expr expressions() {
         // left expr
-        Expr expr = expression();
+        Expr expr = equality();
 
         while(match(COMMA)) {
             // comma token
             Token comma = previous();
             //right expr
-            expr = expression();
+            expr = equality();
         }
 
         return expr;
     }
 
-    private Expr expression() {
-        return equality();
-    }
+
 
     private Expr equality() {
         // comparison non terminal
