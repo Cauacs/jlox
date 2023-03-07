@@ -46,3 +46,5 @@ public class AstPrinter implements Expr.Visitor<String> {
         return builder.toString();
     }
 }
+
+if(left instanceof String&&right instanceof Double){return(String)left+(String)stringify(right);}
