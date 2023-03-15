@@ -237,7 +237,6 @@ class Scanner {
         return source.charAt(current++);
     }
 
-    // soon
     private void addToken(TokenType type) {
         addToken(type, null);
     }

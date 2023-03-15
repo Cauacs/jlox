@@ -6,12 +6,14 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.List;
 
 public class Lox {
 
 	private static final Interpreter intepreter = new Interpreter();
 
+	static boolean isPromptMode;
 	static boolean hadError = false;
 	static boolean hadRuntimeError = false;
 
@@ -27,6 +29,7 @@ public class Lox {
 	}
 
 	private static void runFile(String path) throws IOException {
+		isPromptMode = false;
 		byte[] bytes = Files.readAllBytes(Paths.get(path));
 		run(new String(bytes, Charset.defaultCharset()));
 		if (hadError)
@@ -36,6 +39,7 @@ public class Lox {
 	}
 
 	private static void runPrompt() throws IOException {
+		isPromptMode = true;
 		InputStreamReader input = new InputStreamReader(System.in);
 		BufferedReader reader = new BufferedReader(input);
 
@@ -53,11 +57,18 @@ public class Lox {
 		Scanner scanner = new Scanner(source);
 		List<Token> tokens = scanner.scanTokens();
 		Parser parser = new Parser(tokens);
-		Expr expression = parser.parse();
+		List<Stmt> statements = parser.parse();
 
 		if (hadError)
 			return;
-		intepreter.interpret(expression);
+		// run the resolver after the parser completes and theres no error
+		Resolver resolver = new Resolver(intepreter);
+		resolver.resolve(statements);
+
+		if (hadError)
+			return;
+
+		intepreter.interpret(statements);
 	}
 
 	public static void error(int line, String message) {
